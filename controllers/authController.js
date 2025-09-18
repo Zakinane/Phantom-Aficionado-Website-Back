@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const { sendEmail } = require("../services/emailService");
+const { WelcomeLetter } = require("../controllers/templates/emailTemplates");
 
 exports.register = async (req, res) => {
   try {
@@ -19,7 +20,8 @@ exports.register = async (req, res) => {
     const result = await sendEmail(
       email,
       "Welcome to the Phan-Site !",
-      "Well, cool"
+      "",
+      WelcomeLetter(email)
     );
     console.log(result);
     console.log("User created successfully !:", user.email);

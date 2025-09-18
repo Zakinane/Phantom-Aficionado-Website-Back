@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Phantom Thieves Letter</title>
+    <style>
+      @font-face {
+        font-family: Persona5;
+        src: url(earwig\ factory\ rg.otf);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Persona5", sans-serif;
+        color: white;
+      }
+      .letter {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        background: url("https://i.redd.it/zv9xrj03j6p21.jpg") center/cover
+          no-repeat;
+        max-width: 600px;
+        max-height: 400px;
+        margin: 40px auto;
+        padding: 40px;
+      }
+      h1 {
+        font-size: 50px;
+        margin-top: 0px;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      p {
+        font-size: 25px;
+        line-height: 1.5;
+        margin: 15px 0;
+      }
+      #from {
+        font-size: 20px;
+        margin-left: 300px;
+      }
+      .signature {
+        align-self: flex-end;
+        font-size: 22px;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="letter">
+      <h1>Welcome to the Phan-Site</h1>
+      <p>
+        We have decided to steal away your twisted desires and make you confess
+        your sins.
+      </p>
+      <p>This will be done tomorrow, so we hope you will be ready.</p>
+      <div id="from">From,</div>
+      <div class="signature">the Phantom Thieves of Hearts</div>
+    </div>
+  </body>
+  <!-- <script>
+    function ransomifyText(selector) {
+      const colors = ["black", "white", "gray"];
+      const elements = document.querySelectorAll(selector);
+
+      elements.forEach((el) => {
+        const text = el.innerText;
+        el.innerHTML = "";
+
+        text.split("").forEach((char) => {
+          if (char === " ") {
+            el.appendChild(document.createTextNode(" "));
+            return;
+          }
+
+          const span = document.createElement("span");
+          span.textContent = char;
+          span.style.display = "inline-block";
+          span.style.padding = "2px 4px";
+          span.style.margin = "1px";
+          span.style.fontWeight = "bold";
+
+          const bg = colors[Math.floor(Math.random() * colors.length)];
+          span.style.color = bg;
+
+          span.style.color = bg === "black" ? "white" : "black";
+
+          el.appendChild(span);
+        });
+      });
+    }
+
+    window.onload = function () {
+      ransomifyText("h1, p, .signature, #from");
+    };
+  </script> -->
+</html>

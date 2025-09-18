@@ -8,12 +8,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmail = async (to, subject, text) => {
+const sendEmail = async (to, subject, text, html) => {
   const mailOptions = {
     from: `"Phan-Site\'s Bot" <${process.env.EMAIL_USER}>`,
     to,
     subject,
     text,
+    html,
   };
   try {
     await transporter.sendMail(mailOptions);
