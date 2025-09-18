@@ -9,23 +9,25 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // askip usefull
-const allowedOrigin = process.env.FRONTEND_URL;
-
+const allowedOrigins = [
+  "http://localhost:3000",
+  process.env.FRONTEND_URL, 
+];
 // Middleware
 app.use(express.json());
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Si dev local ou pas d'origine (postman, axios depuis serveur), accepter
-      if (!origin || origin === allowedOrigin) {
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // pour cookies / headers d'auth
+    credentials: true,
   })
 );
+
 
 // Connexion à MongoDB
 connectDB();
