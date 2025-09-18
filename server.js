@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 // askip usefull
 const allowedOrigins = [
   "http://localhost:3000",
-  process.env.FRONTEND_URL, 
+  "https://phantom-aficionado-website-nu.vercel.app", 
 ];
 // Middleware
 app.use(express.json());
