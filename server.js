@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 // askip usefull
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://phantom-aficionado-website-nu.vercel.app", 
+  "https://phantom-aficionado-website-nu.vercel.app",
 ];
 // Middleware
 app.use(express.json());
@@ -28,7 +28,6 @@ app.use(
   })
 );
 
-
 // Connexion à MongoDB
 connectDB();
 
@@ -37,10 +36,16 @@ app.use("/", authRoutes);
 app.use("/", emailRoutes);
 app.use("/poll", pollRoutes);
 
+// useless
+app.get("/", (req, res) => {
+  res.send("API is running");
+});
+
 // Erreur 404
 app.use((req, res) => {
   res.status(404).send("Page not found");
 });
+
 
 app.listen(PORT, () => {
   console.log(`Page on port : ${PORT}`);
