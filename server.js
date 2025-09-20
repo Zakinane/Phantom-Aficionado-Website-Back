@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 const pollRoutes = require("./routes/pollRoutes");
+const topicRoutes = require("./routes/topicRoutes");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -35,6 +36,7 @@ connectDB();
 app.use("/", authRoutes);
 app.use("/", emailRoutes);
 app.use("/poll", pollRoutes);
+app.use("/topics", topicRoutes);
 
 // useless
 app.get("/", (req, res) => {
@@ -45,7 +47,6 @@ app.get("/", (req, res) => {
 app.use((req, res) => {
   res.status(404).send("Page not found");
 });
-
 
 app.listen(PORT, () => {
   console.log(`Page on port : ${PORT}`);
