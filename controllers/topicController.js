@@ -41,6 +41,24 @@ exports.createTopic = async (req, res) => {
     res.status(201).json(newTopic);
   } catch (err) {
     console.error("Create topic error:", err);
+
+    if (err.code === 11000 && err.keyPattern && err.keyPattern.title) {
+      return res.status(400).json({ error: "Topic title already exists" });
+    }
+
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getTopics = async (req, res) => {
+  try {
+    const topics = await Topic.find()
+      .populate("creator", "username")
+      .populate("category", "name");
+
+    res.status(200).json(topics);
+  } catch (err) {
+    console.error("Get topics error:", err);
     res.status(500).json({ error: err.message });
   }
 };
