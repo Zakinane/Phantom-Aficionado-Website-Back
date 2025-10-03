@@ -14,6 +14,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://phantom-aficionado-website-nu.vercel.app",
 ];
+
 // Middleware
 app.use(express.json());
 app.use(
