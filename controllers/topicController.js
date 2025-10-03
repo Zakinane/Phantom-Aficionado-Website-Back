@@ -40,8 +40,6 @@ exports.createTopic = async (req, res) => {
 
     res.status(201).json(newTopic);
   } catch (err) {
-    console.error("Create topic error:", err);
-
     if (err.code === 11000 && err.keyPattern && err.keyPattern.title) {
       return res.status(400).json({ error: "Topic title already exists" });
     }
