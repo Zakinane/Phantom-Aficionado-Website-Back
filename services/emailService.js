@@ -20,7 +20,7 @@ const sendEmail = async (to, subject, text, html) => {
     await transporter.sendMail(mailOptions);
     return 'Email envoyé avec succès !';
   } catch (err) {
-    throw new Error('Erreur lors de l\'envoi : ' + err.message);
+    throw new Error('Error while sending : ' + err.message);
   }
 };
 

@@ -8,7 +8,9 @@ exports.register = async (req, res) => {
     const { email, password } = req.body;
 
     if (!password || password.length < 6) {
-      return res.status(400).json({ message: "Password must be at least 6 characters" });
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters" });
     }
 
     const existingUser = await User.findOne({ email });
@@ -54,5 +56,33 @@ exports.login = async (req, res) => {
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ message: "Server error: " + err.message });
+  }
+};
+
+exports.me = async (req, res) => {
+  try {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return res.status(403).json({ message: "Invalid or expired token" });
+    }
+
+    const user = await User.findById(decoded.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Error fetching user:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
