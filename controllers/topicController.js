@@ -61,6 +61,56 @@ exports.getTopics = async (req, res) => {
   }
 };
 
+exports.addPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content } = req.body;
+
+    if (!content) {
+      return res.status(400).json({ error: "Post content is required" });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Not authorized" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
+    const topic = await Topic.findById(id);
+    if (!topic) return res.status(404).json({ error: "Topic not found" });
+    if (topic.isClosed)
+      return res.status(400).json({ error: "Topic is closed" });
+
+    const newPost = {
+      author: userId,
+      content,
+      createdAt: new Date(),
+    };
+
+    topic.posts.push(newPost);
+
+    if (!topic.participants.includes(userId)) {
+      topic.participants.push(userId);
+    }
+
+    await topic.save();
+
+    const populatedMsg = await Topic.populate(newPost, {
+      path: "author",
+      select: "username avatar",
+    });
+
+    res.status(201).json(populatedMsg);
+  } catch (err) {
+    console.error("Add post error:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 exports.closeTopic = async (req, res) => {
   try {
     const { id } = req.params;

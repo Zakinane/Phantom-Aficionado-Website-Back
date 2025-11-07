@@ -1,11 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const Topic = require("../models/topicModel");
-const { createTopic, getTopics, closeTopic } = require("../controllers/topicController");
+const {
+  createTopic,
+  getTopics,
+  closeTopic,
+  addPost
+} = require("../controllers/topicController");
 
 router.post("/", createTopic);
 router.get("/", getTopics);
 router.put("/:id/close", closeTopic);
+router.post("/:id/posts", addPost);
 
 router.get("/:id", async (req, res) => {
   try {

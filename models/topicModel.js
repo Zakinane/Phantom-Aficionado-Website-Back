@@ -16,6 +16,13 @@ const topicSchema = new mongoose.Schema({
     default: null,
   },
   nbrPosts: { type: Number, default: 1 },
+  posts: [
+  {
+    author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    content: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+  },
+],
   nbrPosters: { type: Number, default: 1 },
   participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   tags: [{ type: String }],
