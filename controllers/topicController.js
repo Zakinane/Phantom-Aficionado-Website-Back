@@ -60,3 +60,44 @@ exports.getTopics = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.closeTopic = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Not authorized" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    let decoded;
+
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return res.status(401).json({ error: "Token invalid" });
+    }
+
+    const userId = decoded.id;
+
+    const topic = await Topic.findById(id);
+    if (!topic) {
+      return res.status(404).json({ error: "Topic not found" });
+    }
+
+    if (topic.creator.toString() !== userId) {
+      return res.status(403).json({ error: "You are not the creator of this topic" });
+    }
+
+    topic.isClosed = true;
+    topic.closedAt = new Date();
+    await topic.save();
+
+    res.status(200).json({ message: "Topic closed successfully", topic });
+  } catch (err) {
+    console.error("Close topic error:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
